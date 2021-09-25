@@ -1,0 +1,37 @@
+rankup:
+  '-1':
+    display: "&c&lMAX"
+    cost: 0
+    exp-cost: 0
+    item:
+      material: GOLD_BLOCK
+      name: "&cNiveau maximum"
+      lore:
+        - "&8==========="
+        - "&bHeyo"
+        - "&8==========="
+  '1':
+    display: "&f&lI"
+    cost: 0
+    exp-cost: 0
+    item:
+      material: IRON_BLOCK
+      name: "&7Rang &f&lI"
+      lore:
+        - "&8==========="
+        - "&bHeyo"
+        - "&8==========="
+    commands: [ ]
+  '2':
+    display: "&a&lII"
+    cost: 2000
+    exp-cost: 2000
+    item:
+      material: DIAMOND_BLOCK
+      name: "&7Rang &a&lII"
+      lore:
+        - "&8==========="
+        - "&bHeya"
+        - "&8==========="
+    commands:
+      - "[CONSOLE] lp user %player% permission set tamere"

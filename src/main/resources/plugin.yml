@@ -1,0 +1,9 @@
+name: CinestiaRankup
+version: '${project.version}'
+main: fr.robotv2.cinestiarankup.main
+api-version: 1.16
+authors: [ Robotv2 ]
+softdepend: [Vault, PlaceholderAPI]
+commands:
+  rankup:
+    description: to open the gui
