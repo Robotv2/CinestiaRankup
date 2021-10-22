@@ -7,10 +7,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-import static fr.robotv2.cinestiarankup.main.LOGGER;
-import static fr.robotv2.cinestiarankup.utility.color;
+import static fr.robotv2.cinestiarankup.Main.LOGGER;
+import static fr.robotv2.cinestiarankup.Utility.color;
 
-public class rankupDB {
+public class RankupDB {
 
     private static File database;
     private static FileConfiguration databaseconfig;

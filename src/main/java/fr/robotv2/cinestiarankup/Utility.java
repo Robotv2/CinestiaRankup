@@ -2,20 +2,28 @@ package fr.robotv2.cinestiarankup;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import fr.robotv2.cinestiarankup.config.rankupDB;
-import fr.robotv2.cinestiarankup.object.level;
+import fr.robotv2.cinestiarankup.config.RankupDB;
+import fr.robotv2.cinestiarankup.object.RankupLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
-import static fr.robotv2.cinestiarankup.main.ECO;
+import static fr.robotv2.cinestiarankup.Main.ECO;
 
-public class utility {
+public class Utility {
+
+    public static HashMap<Integer, RankupLevel> rankupLevels = new HashMap<>();
+
+    public static void clear() {
+        rankupLevels.clear();
+    }
 
     public static HashMap<UUID, Integer> level = new HashMap<>();
     public static HashMap<UUID, Double> exp = new HashMap<>();
@@ -28,8 +36,11 @@ public class utility {
         return ChatColor.stripColor(message);
     }
 
-    public static level getLevel(int level) {
-        return new level(level);
+    public static RankupLevel getRankupLevel(int level) {
+        RankupLevel rankupLevel = rankupLevels.get(level);
+        if(rankupLevel == null)
+            rankupLevel = new RankupLevel(level);
+        return rankupLevel;
     }
 
     public static int getLevel(Player player) {
@@ -45,7 +56,7 @@ public class utility {
     }
 
     public static void setLevel(UUID playerUUID, int level) {
-        utility.level.put(playerUUID, level);
+        Utility.level.put(playerUUID, level);
         sendLevel(Bukkit.getPlayer(playerUUID));
     }
 
@@ -62,19 +73,32 @@ public class utility {
     }
 
     public static void setExp(UUID playerUUID, Double exp) {
-        utility.exp.put(playerUUID, exp);
+        Utility.exp.put(playerUUID, exp);
         sendExp(Bukkit.getPlayer(playerUUID));
     }
 
     public static boolean canRankUp(Player player) {
         int level = getLevel(player);
         double exp = getExp(player);
-        level current = getLevel(level);
-        level next = current.getNextLevel();
+        RankupLevel current = getRankupLevel(level);
+
+        RankupLevel next = current.getNextLevel();
+        HashMap<ItemStack, Integer> blocks = next.getBlockRequirements();
 
         if(next.getLevel() == -1) {
             player.sendMessage(color("&cVous avez atteint le niveau maximum !"));
             return false;
+        }
+
+        for(Map.Entry<ItemStack, Integer> item : blocks.entrySet()) {
+            if(!player.getInventory().containsAtLeast(item.getKey(), item.getValue())) {
+                player.sendMessage(color("&cObjet manquant: " + item.getKey().getType() + "x" + item.getValue()));
+                return false;
+            }
+        }
+
+        for(Map.Entry<ItemStack, Integer> item : blocks.entrySet()) {
+            player.getInventory().removeItemAnySlot();
         }
 
         boolean asMoney = ECO.has(player, next.getCost());
@@ -85,8 +109,8 @@ public class utility {
 
     public static void rankUp(Player player) {
         int level = getLevel(player);
-        level current = getLevel(level);
-        level next = current.getNextLevel();
+        RankupLevel current = getRankupLevel(level);
+        RankupLevel next = current.getNextLevel();
 
         if(next.getLevel() == -1) {
             return;
@@ -106,12 +130,12 @@ public class utility {
 
     public static void executeCommand(Player player) {
         int level = getLevel(player);
-        level current = getLevel(level);
+        RankupLevel current = getRankupLevel(level);
 
         String levelStr = "level-" + current.getLevel();
         CommandSender sender = Bukkit.getConsoleSender();
 
-        for(String cmd : rankupDB.getDB().getStringList("rankup." + levelStr + ".commands")) {
+        for(String cmd : RankupDB.getDB().getStringList("rankup." + levelStr + ".commands")) {
             if(cmd.startsWith("[CONSOLE]")) {
                 cmd = cmd
                         .replace("[CONSOLE] ", "")
@@ -146,7 +170,7 @@ public class utility {
         out.writeUTF("set-level");
         out.writeInt(getLevel(player));
 
-        player.sendPluginMessage(main.INSTANCE, main.INSTANCE.channel, out.toByteArray());
+        player.sendPluginMessage(Main.INSTANCE, Main.INSTANCE.channel, out.toByteArray());
     }
 
     private static void sendExp(Player player) {
@@ -155,6 +179,6 @@ public class utility {
         out.writeUTF("set-exp");
         out.writeDouble(getExp(player));
 
-        player.sendPluginMessage(main.INSTANCE, main.INSTANCE.channel, out.toByteArray());
+        player.sendPluginMessage(Main.INSTANCE, Main.INSTANCE.channel, out.toByteArray());
     }
 }

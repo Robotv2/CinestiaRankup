@@ -1,13 +1,13 @@
 package fr.robotv2.cinestiarankup.commands.subs;
 
-import fr.robotv2.cinestiarankup.utility;
+import fr.robotv2.cinestiarankup.Utility;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-import static fr.robotv2.cinestiarankup.utility.color;
+import static fr.robotv2.cinestiarankup.Utility.color;
 
-public class setLevel {
+public class SetLevel {
 
     public void setlevel(CommandSender sender, String[] args) {
         if(!(args.length >= 3)) {
@@ -17,7 +17,7 @@ public class setLevel {
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
         int level = Integer.parseInt(args[2]);
-        utility.setLevel(target.getUniqueId(), level);
+        Utility.setLevel(target.getUniqueId(), level);
 
         sender.sendMessage(color("&fLe niveau de &e" + target.getName() + " &fest désormais &e" + level));
     }

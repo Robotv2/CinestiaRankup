@@ -5,9 +5,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import static fr.robotv2.cinestiarankup.utility.color;
+import static fr.robotv2.cinestiarankup.Utility.color;
 
-public class itemBuilder {
+public class ItemBuilder {
 
     private static ItemStack empty;
     private static ItemStack close;

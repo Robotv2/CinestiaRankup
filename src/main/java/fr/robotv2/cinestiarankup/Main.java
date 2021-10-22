@@ -1,11 +1,12 @@
 package fr.robotv2.cinestiarankup;
 
-import fr.robotv2.cinestiarankup.bungee.pluginMessage;
-import fr.robotv2.cinestiarankup.commands.rankupCommand;
-import fr.robotv2.cinestiarankup.config.rankupDB;
+import fr.robotv2.cinestiarankup.bungee.PluginMessage;
+import fr.robotv2.cinestiarankup.commands.RankupCommand;
+import fr.robotv2.cinestiarankup.config.RankupDB;
 import fr.robotv2.cinestiarankup.ui.GUI;
 import fr.robotv2.cinestiarankup.ui.UImanager;
-import fr.robotv2.cinestiarankup.ui.stock.menuGUI;
+import fr.robotv2.cinestiarankup.ui.stock.BlockGUI;
+import fr.robotv2.cinestiarankup.ui.stock.MenuGUI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public final class main extends JavaPlugin {
+public final class Main extends JavaPlugin {
 
-    public static main INSTANCE;
+    public static Main INSTANCE;
     public static Economy ECO;
     public static Logger LOGGER;
 
@@ -33,7 +34,7 @@ public final class main extends JavaPlugin {
         setupEconomy();
         setupCommands();
 
-        (new placeholder()).register();
+        (new Placeholder()).register();
 
         LOGGER = this.getLogger();
         INSTANCE = this;
@@ -48,11 +49,12 @@ public final class main extends JavaPlugin {
     public void setupGUI() {
         manager = new UImanager(this);
         getServer().getPluginManager().registerEvents(manager, this);
-        manager.addMenu(new menuGUI());
+        manager.addMenu(new MenuGUI());
+        manager.addMenu(new BlockGUI());
     }
 
     public void setupConfigs() {
-        rankupDB.setupDB();
+        RankupDB.setupDB();
     }
 
     public void setupEconomy() {
@@ -62,11 +64,11 @@ public final class main extends JavaPlugin {
     }
 
     public void setupCommands() {
-        getCommand("rankup").setExecutor(new rankupCommand());
+        getCommand("rankup").setExecutor(new RankupCommand());
     }
 
     public void registerChannels() {
-        getServer().getMessenger().registerIncomingPluginChannel(this, channel, new pluginMessage());
+        getServer().getMessenger().registerIncomingPluginChannel(this, channel, new PluginMessage());
         getServer().getMessenger().registerOutgoingPluginChannel(this, channel);
     }
 

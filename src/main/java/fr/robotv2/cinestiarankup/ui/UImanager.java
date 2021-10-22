@@ -1,6 +1,6 @@
 package fr.robotv2.cinestiarankup.ui;
 
-import fr.robotv2.cinestiarankup.main;
+import fr.robotv2.cinestiarankup.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,12 +11,16 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+
 public class UImanager implements Listener {
 
-    private main main;
-    public UImanager(main main) {
+    private final Main main;
+    public UImanager(Main main) {
         this.main = main;
     }
+
+    public static HashMap<Player, Integer> selectedMenus = new HashMap<>();
 
     public static class holdersMENU implements InventoryHolder {
         @Override
@@ -35,7 +39,7 @@ public class UImanager implements Listener {
         main.getMenus().values().stream()
                 .filter(menu -> menu.getName(player).equals(e.getView().getTitle()))
                 .forEach(menu -> {
-                    menu.onClick(player, e.getInventory(), current, e.getRawSlot());
+                    menu.onClick(player, e.getInventory(), current, e.getRawSlot(), e.getClick());
                     e.setCancelled(true);
                 });
     }

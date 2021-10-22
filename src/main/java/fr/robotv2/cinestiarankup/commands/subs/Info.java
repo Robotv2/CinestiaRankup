@@ -3,9 +3,9 @@ package fr.robotv2.cinestiarankup.commands.subs;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static fr.robotv2.cinestiarankup.utility.*;
+import static fr.robotv2.cinestiarankup.Utility.*;
 
-public class info {
+public class Info {
 
     public void info(CommandSender sender) {
         if(!(sender instanceof Player)) return;

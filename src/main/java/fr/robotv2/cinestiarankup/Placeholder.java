@@ -4,10 +4,9 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static fr.robotv2.cinestiarankup.utility.getExp;
-import static fr.robotv2.cinestiarankup.utility.getLevel;
+import static fr.robotv2.cinestiarankup.Utility.*;
 
-public class placeholder extends PlaceholderExpansion  {
+public class Placeholder extends PlaceholderExpansion  {
 
     @Override
     public @NotNull String getAuthor() {
@@ -37,7 +36,7 @@ public class placeholder extends PlaceholderExpansion  {
     public String onPlaceholderRequest(Player player, String placeholder) {
         switch (placeholder.toLowerCase()) {
             case "display":
-                return getLevel(getLevel(player)).getDisplay();
+                return getRankupLevel(getLevel(player)).getDisplay();
             case "exp":
                 return String.valueOf(getExp(player));
         }

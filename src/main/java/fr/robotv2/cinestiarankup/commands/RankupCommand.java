@@ -1,30 +1,30 @@
 package fr.robotv2.cinestiarankup.commands;
 
-import fr.robotv2.cinestiarankup.commands.subs.info;
-import fr.robotv2.cinestiarankup.commands.subs.setExp;
-import fr.robotv2.cinestiarankup.commands.subs.setLevel;
-import fr.robotv2.cinestiarankup.config.rankupDB;
-import fr.robotv2.cinestiarankup.main;
-import fr.robotv2.cinestiarankup.ui.stock.menuGUI;
+import fr.robotv2.cinestiarankup.commands.subs.*;
+import fr.robotv2.cinestiarankup.Main;
+import fr.robotv2.cinestiarankup.ui.stock.MenuGUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static fr.robotv2.cinestiarankup.utility.color;
-import static fr.robotv2.cinestiarankup.utility.getExp;
+import static fr.robotv2.cinestiarankup.Utility.color;
+import static fr.robotv2.cinestiarankup.Utility.getExp;
 
-public class rankupCommand implements CommandExecutor {
+public class RankupCommand implements CommandExecutor {
 
-    public setLevel setLevel;
-    public setExp setExp;
-    public info info;
-    public fr.robotv2.cinestiarankup.commands.subs.reload reload;
+    public SetLevel setLevel;
+    public SetExp setExp;
+    public Info info;
+    public Reload reload;
+    public AddExp addExp;
 
-    public rankupCommand() {
-        setLevel = new setLevel();
-        setExp = new setExp();
-        info = new info();
+    public RankupCommand() {
+        setLevel = new SetLevel();
+        setExp = new SetExp();
+        info = new Info();
+        reload = new Reload();
+        addExp = new AddExp();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class rankupCommand implements CommandExecutor {
                 player.sendMessage(color("&cVos données n'ont pas pu être chargées. Merci de contacter un administrateur"));
                 return false;
             }
-            main.getManager().open(player, menuGUI.class);
+            Main.getManager().open(player, MenuGUI.class);
             return true;
         }
 
@@ -53,13 +53,13 @@ public class rankupCommand implements CommandExecutor {
                 setExp.setExp(sender, args);
                 break;
             case "addexp":
+                addExp.addExp(sender, args);
                 break;
             case "info":
                 info.info(sender);
                 break;
             case "reload":
-                rankupDB.reloadDB();
-                sender.sendMessage(color("&aLe fichier rankup.yml a bien été rechargé."));
+                reload.reload(sender, args);
                 break;
         }
         return false;

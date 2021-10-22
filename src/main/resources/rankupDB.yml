@@ -1,17 +1,22 @@
 rankup:
-  '-1':
+  'level--1':
     display: "&c&lMAX"
     cost: 0
     exp-cost: 0
     item:
-      material: GOLD_BLOCK
-      name: "&cNiveau maximum"
+      material: OBSIDIAN
+      name: "&c&lNIVEAU MAXIMUM"
       lore:
-        - "&8==========="
-        - "&bHeyo"
-        - "&8==========="
-  '1':
-    display: "&f&lI"
+        - "&8&m--->-------<---"
+        - "&6Félicitations !"
+        - "&fVous avez atteint le &cniveau maximum"
+        - "&8"
+        - "&fDes nouveaux niveaux pourront"
+        - "&fêtre ajoutés dans les"
+        - "&fprochaines MAJs !"
+        - "&8&m--->-------<---"
+  'level-0':
+    display: ""
     cost: 0
     exp-cost: 0
     item:
@@ -19,10 +24,33 @@ rankup:
       name: "&7Rang &f&lI"
       lore:
         - "&8==========="
-        - "&bHeyo"
+        - "&bNUL"
         - "&8==========="
     commands: [ ]
-  '2':
+  'level-1':
+    display: "&f&lI"
+    cost: 500
+    exp-cost: 50
+    item:
+      material: "head-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2E1MTZmYmFlMTYwNThmMjUxYWVmOWE2OGQzMDc4NTQ5ZjQ4ZjZkNWI2ODNmMTljZjVhMTc0NTIxN2Q3MmNjIn19fQ=="
+      name: "&f➤ &7Rang &f&lI"
+      lore:
+        - "&8&m=-------=-------="
+        - "&3Coût:"
+        - " &f» &a500$"
+        - " &f» &e50 points"
+        - "&8&m=-------=-------="
+        - "&3Récompenses:"
+        - " &f» &bAccès au /craft"
+        - "&8&m=-------=-------="
+        - "&8"
+        - "&f➤ &7Cliquez pour passer"
+        - "&7au rang suivant"
+        - "&8"
+        - "&8&m=-------=-------="
+    commands:
+      - "[CONSOLE] lp user %player% permission set essentials.workbench"
+  'level-2':
     display: "&a&lII"
     cost: 2000
     exp-cost: 2000
@@ -34,4 +62,4 @@ rankup:
         - "&bHeya"
         - "&8==========="
     commands:
-      - "[CONSOLE] lp user %player% permission set tamere"
+      - "[CONSOLE] heal %player%"
