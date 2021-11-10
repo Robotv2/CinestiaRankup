@@ -11,15 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static fr.robotv2.cinestiarankup.Main.ECO;
 
 public class Utility {
 
     public static HashMap<Integer, RankupLevel> rankupLevels = new HashMap<>();
+    public static List<UUID> hasRankUp = new ArrayList<>();
 
     public static void clear() {
         rankupLevels.clear();
@@ -28,7 +27,7 @@ public class Utility {
     public static HashMap<UUID, Integer> level = new HashMap<>();
     public static HashMap<UUID, Double> exp = new HashMap<>();
 
-    public static String color(String message) {
+    public static String colorize(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
@@ -74,7 +73,6 @@ public class Utility {
 
     public static void setExp(UUID playerUUID, Double exp) {
         Utility.exp.put(playerUUID, exp);
-        sendExp(Bukkit.getPlayer(playerUUID));
     }
 
     public static boolean canRankUp(Player player) {
@@ -86,19 +84,15 @@ public class Utility {
         HashMap<ItemStack, Integer> blocks = next.getBlockRequirements();
 
         if(next.getLevel() == -1) {
-            player.sendMessage(color("&cVous avez atteint le niveau maximum !"));
+            player.sendMessage(colorize("&cVous avez atteint le niveau maximum !"));
             return false;
         }
 
         for(Map.Entry<ItemStack, Integer> item : blocks.entrySet()) {
             if(!player.getInventory().containsAtLeast(item.getKey(), item.getValue())) {
-                player.sendMessage(color("&cObjet manquant: " + item.getKey().getType() + "x" + item.getValue()));
+                player.sendMessage(colorize("&cObjet manquant: " + item.getKey().getType() + "x" + item.getValue()));
                 return false;
             }
-        }
-
-        for(Map.Entry<ItemStack, Integer> item : blocks.entrySet()) {
-            player.getInventory().removeItemAnySlot();
         }
 
         boolean asMoney = ECO.has(player, next.getCost());
@@ -116,16 +110,25 @@ public class Utility {
             return;
         }
 
+        if(hasRankUp.contains(player.getUniqueId())) {
+            player.sendMessage(colorize("Merci d'attendre un peu avant de pouvoir rankup de nouveau."));
+            return;
+        }
+
+        for(Map.Entry<ItemStack, Integer> item : next.getBlockRequirements().entrySet()) {
+            player.getInventory().removeItem(new ItemStack(item.getKey().getType(), item.getValue()));
+        }
+
         double cost = next.getCost();
         ECO.withdrawPlayer(player, cost);
 
         setLevel(player, next.getLevel());
 
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7F, 0.7F);
-        player.sendTitle(color("&6Félicitations !"), color("&7Vous venez de passer rang &f" + next.getDisplay()), 10, 50, 10);
+        player.sendTitle(colorize("&6Félicitations !"), colorize("&7Vous venez de passer rang &f" + next.getDisplay()), 10, 50, 10);
 
+        initPlayerTimer(player.getUniqueId());
         executeCommand(player);
-        sendToBungee(player);
     }
 
     public static void executeCommand(Player player) {
@@ -154,14 +157,16 @@ public class Utility {
                 cmd = cmd
                         .replace("[MESSAGE] ", "")
                         .replace("%player%", player.getName());
-                player.sendMessage(color(cmd));
+                player.sendMessage(colorize(cmd));
             }
         }
     }
 
-    public static void sendToBungee(Player player) {
-        sendLevel(player);
-        sendExp(player);
+    public static void initPlayerTimer(UUID playerUUID) {
+        hasRankUp.add(playerUUID);
+        Bukkit.getScheduler().runTaskLater(Main.INSTANCE, () -> {
+            hasRankUp.remove(playerUUID);
+        }, 20 * 10);
     }
 
     private static void sendLevel(Player player) {
@@ -169,15 +174,6 @@ public class Utility {
 
         out.writeUTF("set-level");
         out.writeInt(getLevel(player));
-
-        player.sendPluginMessage(Main.INSTANCE, Main.INSTANCE.channel, out.toByteArray());
-    }
-
-    private static void sendExp(Player player) {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-
-        out.writeUTF("set-exp");
-        out.writeDouble(getExp(player));
 
         player.sendPluginMessage(Main.INSTANCE, Main.INSTANCE.channel, out.toByteArray());
     }

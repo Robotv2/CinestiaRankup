@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static fr.robotv2.cinestiarankup.Main.LOGGER;
-import static fr.robotv2.cinestiarankup.Utility.color;
+import static fr.robotv2.cinestiarankup.Utility.colorize;
 
 public class RankupDB {
 
@@ -23,7 +23,7 @@ public class RankupDB {
                     database.getParentFile().mkdir();
                 database.createNewFile();
             } catch(IOException e) {
-                LOGGER.warning(color("&cErreur lors de la génération du fichier rankup.yml"));
+                LOGGER.warning(colorize("&cErreur lors de la génération du fichier rankup.yml"));
             }
         }
         databaseconfig = YamlConfiguration.loadConfiguration(database);
@@ -37,7 +37,7 @@ public class RankupDB {
         try {
             databaseconfig.save(database);
         } catch (IOException e) {
-            LOGGER.warning(color("&cErreur lors de la génération du fichier rankup.yml"));
+            LOGGER.warning(colorize("&cErreur lors de la génération du fichier rankup.yml"));
         }
     }
 

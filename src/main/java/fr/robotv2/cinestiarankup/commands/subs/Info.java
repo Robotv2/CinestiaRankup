@@ -13,10 +13,10 @@ public class Info {
         Player player = (Player) sender;
         int level = getLevel(player);
         Double exp = getExp(player);
-        player.sendMessage(color("&6&m------------------------------------"));
-        player.sendMessage(color("&f&l» &7&l" + player.getName().toUpperCase()));
-        player.sendMessage(color("&f&l» &6&lNIVEAU: &f" + level));
-        player.sendMessage(color("&f&l» &6&lEXP: &f" + exp));
-        player.sendMessage(color("&6&m------------------------------------"));
+        player.sendMessage(colorize("&6&m------------------------------------"));
+        player.sendMessage(colorize("&f&l» &7&l" + player.getName().toUpperCase()));
+        player.sendMessage(colorize("&f&l» &6&lNIVEAU: &f" + level));
+        player.sendMessage(colorize("&f&l» &6&lEXP: &f" + exp));
+        player.sendMessage(colorize("&6&m------------------------------------"));
     }
 }

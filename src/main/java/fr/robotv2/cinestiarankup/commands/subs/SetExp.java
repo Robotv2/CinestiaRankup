@@ -5,13 +5,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-import static fr.robotv2.cinestiarankup.Utility.color;
+import static fr.robotv2.cinestiarankup.Utility.colorize;
 
 public class SetExp {
 
     public void setExp(CommandSender sender, String[] args) {
         if(!(args.length >= 3)) {
-            sender.sendMessage(color("&cERREUR: /rankup setexp <joueur> <exp>"));
+            sender.sendMessage(colorize("&cERREUR: /rankup setexp <joueur> <exp>"));
             return;
         }
 
@@ -19,6 +19,6 @@ public class SetExp {
         Double exp = Double.parseDouble(args[2]);
         Utility.setExp(target.getUniqueId(), exp);
 
-        sender.sendMessage(color("&fL'exp de &e" + target.getName() + " &fest désormais &e" + exp));
+        sender.sendMessage(colorize("&fL'exp de &e" + target.getName() + " &fest désormais &e" + exp));
     }
 }

@@ -2,15 +2,13 @@ package fr.robotv2.cinestiarankup.object;
 
 import fr.robotv2.cinestiaapi.ItemAPI;
 import fr.robotv2.cinestiarankup.config.RankupDB;
-import fr.robotv2.cinestiarankup.ui.GUI;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
-import static fr.robotv2.cinestiarankup.Utility.color;
+import static fr.robotv2.cinestiarankup.Utility.colorize;
 import static fr.robotv2.cinestiarankup.Utility.getRankupLevel;
 
 public class RankupLevel {
@@ -31,21 +29,23 @@ public class RankupLevel {
         this.levelStr = "level-" + level;
         this.level = setupLevel(level);
         this.nextRankUpLevel = setupNextLevel();
-        this.display = color(RankupDB.getDB().getString("rankup." + levelStr + ".display"));
+        this.display = colorize(RankupDB.getDB().getString("rankup." + levelStr + ".display"));
 
         this.cost = RankupDB.getDB().getDouble("rankup." + levelStr + ".cost");
         this.expCost = RankupDB.getDB().getDouble("rankup." + levelStr + ".exp-cost");
         this.blockRequirements = this.setupBlockRequirement();
 
-        ItemAPI.itemBuilder builder;
+        ItemAPI.ItemBuilder builder;
         String material = RankupDB.getDB().getString("rankup." + levelStr + ".item.material");
         String name = RankupDB.getDB().getString("rankup." + levelStr + ".item.name");
         List<String> lore = RankupDB.getDB().getStringList("rankup." + levelStr + ".item.lore");
 
+        assert material != null;
+
         if(material.startsWith("head-"))
             builder = ItemAPI.toBuilder(ItemAPI.createSkull(material.replace("head-", "")));
         else
-            builder = new ItemAPI.itemBuilder().setType(Material.valueOf(material));
+            builder = new ItemAPI.ItemBuilder().setType(Material.valueOf(material));
         builder.setName(name);
         builder.setLore(lore);
         this.item = builder.build();

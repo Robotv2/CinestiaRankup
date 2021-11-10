@@ -5,7 +5,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import static fr.robotv2.cinestiarankup.Utility.color;
+import static fr.robotv2.cinestiarankup.Utility.colorize;
 
 public class ItemBuilder {
 
@@ -28,7 +28,7 @@ public class ItemBuilder {
         if(close == null) {
             ItemStack deco = new ItemStack(Material.BARRIER);
             ItemMeta decometa = deco.getItemMeta();
-            decometa.setDisplayName(color("&cCliquez ici pour revenir en arrière."));
+            decometa.setDisplayName(colorize("&cCliquez ici pour revenir en arrière."));
             deco.setItemMeta(decometa);
             close = deco;
         }

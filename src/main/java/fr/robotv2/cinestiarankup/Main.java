@@ -8,6 +8,7 @@ import fr.robotv2.cinestiarankup.ui.UImanager;
 import fr.robotv2.cinestiarankup.ui.stock.BlockGUI;
 import fr.robotv2.cinestiarankup.ui.stock.MenuGUI;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,6 +39,8 @@ public final class Main extends JavaPlugin {
 
         LOGGER = this.getLogger();
         INSTANCE = this;
+
+        Bukkit.getWorld("end").getEnderDragonBattle().setRespawnPhase()
     }
 
     @Override

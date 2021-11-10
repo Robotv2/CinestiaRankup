@@ -1,14 +1,15 @@
 package fr.robotv2.cinestiarankup.commands;
 
-import fr.robotv2.cinestiarankup.commands.subs.*;
 import fr.robotv2.cinestiarankup.Main;
+import fr.robotv2.cinestiarankup.commands.subs.*;
 import fr.robotv2.cinestiarankup.ui.stock.MenuGUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import static fr.robotv2.cinestiarankup.Utility.color;
+import static fr.robotv2.cinestiarankup.Utility.colorize;
 import static fr.robotv2.cinestiarankup.Utility.getExp;
 
 public class RankupCommand implements CommandExecutor {
@@ -28,16 +29,16 @@ public class RankupCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if(!sender.hasPermission("cinestia.command.rankup")) {
-            sender.sendMessage(color("&cVous n'avez pas la permission d'exécuter la commande."));
+            sender.sendMessage(colorize("&cVous n'avez pas la permission d'exécuter la commande."));
             return false;
         }
 
         if(args.length == 0 && sender instanceof Player) {
             Player player = (Player) sender;
             if(getExp(player) == null) {
-                player.sendMessage(color("&cVos données n'ont pas pu être chargées. Merci de contacter un administrateur"));
+                player.sendMessage(colorize("&cVos données n'ont pas pu être chargées. Merci de contacter un administrateur"));
                 return false;
             }
             Main.getManager().open(player, MenuGUI.class);
